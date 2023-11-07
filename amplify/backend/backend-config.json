@@ -1,0 +1,44 @@
+{
+  "api": {
+    "helloworld7": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "HelloWorld"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "HelloWorld": {
+      "build": true,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_HelloWorld_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HelloWorld"
+        }
+      ]
+    },
+    "AMPLIFY_function_HelloWorld_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "HelloWorld"
+        }
+      ]
+    }
+  }
+}

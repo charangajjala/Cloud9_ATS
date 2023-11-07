@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/api/test": {
+      "name": "/api/test",
+      "lambdaFunction": "HelloWorld",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

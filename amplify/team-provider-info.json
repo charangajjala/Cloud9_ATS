@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-cloud9ats-dev-131501-authRole",
+      "UnauthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-dev-131501-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-dev-131501-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-cloud9ats-dev-131501-deployment",
+      "UnauthRoleName": "amplify-cloud9ats-dev-131501-unauthRole",
+      "StackName": "amplify-cloud9ats-dev-131501",
+      "StackId": "arn:aws:cloudformation:us-east-2:168490788113:stack/amplify-cloud9ats-dev-131501/f404b560-7da1-11ee-a08b-0a3ceb2257c9",
+      "AmplifyAppId": "d2wigccuget5lb"
+    },
+    "categories": {
+      "function": {
+        "HelloWorld": {
+          "deploymentBucketName": "amplify-cloud9ats-dev-131501-deployment",
+          "s3Key": "amplify-builds/HelloWorld-7235694a425333304c2f-build.zip"
+        }
+      },
+      "api": {
+        "helloworld7": {}
+      }
+    }
+  }
+}

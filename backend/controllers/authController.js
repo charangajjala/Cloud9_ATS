@@ -38,16 +38,18 @@ exports.signup = async (req, res, next) => {
   // Check if the user with the given email already exists
   const params = {
     TableName: "users",
-    // IndexName: "EmailIndex", // If you have an index based on email
-    KeyConditionExpression: "email = :e",
+    FilterExpression: "#attribute = :value",
+    ExpressionAttributeNames: {
+      "#attribute": "email",
+    },
     ExpressionAttributeValues: {
-      ":e": email,
+      ":value": email,
     },
   };
 
   try {
     // const dynamodb = new AWS.DynamoDB.DocumentClient();
-    const userExist = await dynamodb.query(params).promise();
+    const userExist = await dynamodb.scan(params).promise();
     console.log("here");
     console.log(userExist);
 
@@ -127,14 +129,16 @@ exports.signin = async (req, res, next) => {
     // Check user email in DynamoDB
     const params = {
       TableName: "users",
-      // IndexName: "EmailIndex", // If you have an index on the email attribute
-      KeyConditionExpression: "email = :e",
+      FilterExpression: "#attribute = :value",
+      ExpressionAttributeNames: {
+        "#attribute": "email",
+      },
       ExpressionAttributeValues: {
-        ":e": email,
+        ":value": email,
       },
     };
     // const dynamodb = new AWS.DynamoDB.DocumentClient();
-    const queryResult = await dynamodb.query(params).promise();
+    const queryResult = await dynamodb.scan(params).promise();
 
     if (queryResult.Items.length === 0) {
       return next(new ErrorResponse("Invalid credentials", 400));
@@ -157,7 +161,7 @@ exports.signin = async (req, res, next) => {
 };
 
 const sendTokenResponse = async (user, codeStatus, res) => {
-  const token = await jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+  const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: 3600,
   });
   res
@@ -195,7 +199,7 @@ exports.userProfile = async (req, res, next) => {
     const params = {
       TableName: "users", // Replace with your DynamoDB table name for users
       Key: {
-        email: req.user.email, // Assuming userId is the key for users
+        id: req.user.id, // Assuming userId is the key for users
       },
     };
 

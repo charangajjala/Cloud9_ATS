@@ -51,7 +51,7 @@ exports.isAuthenticated = async (req, res, next) => {
     const params = {
       TableName: "users",
       Key: {
-        email: decoded.email,
+        id: decoded.id,
       },
     };
 

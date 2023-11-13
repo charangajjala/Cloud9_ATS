@@ -14,29 +14,48 @@ AWS.config.update(awsConfig);
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 //load all users
+// exports.allUsers = async (req, res, next) => {
+//   //enable pagination
+//   const pageSize = 10;
+//   const page = Number(req.query.pageNumber) || 1;
+//   const count = await User.find({}).estimatedDocumentCount();
+
+//   try {
+//     const users = await User.find()
+//       .sort({ createdAt: -1 })
+//       .select("-password")
+//       .skip(pageSize * (page - 1))
+//       .limit(pageSize);
+
+//     res.status(200).json({
+//       success: true,
+//       users,
+//       page,
+//       pages: Math.ceil(count / pageSize),
+//       count,
+//     });
+//     next();
+//   } catch (error) {
+//     return next(error);
+//   }
+// };
+
 exports.allUsers = async (req, res, next) => {
-  //enable pagination
-  const pageSize = 10;
-  const page = Number(req.query.pageNumber) || 1;
-  const count = await User.find({}).estimatedDocumentCount();
+  const params = {
+    TableName: "users",
+  };
 
   try {
-    const users = await User.find()
-      .sort({ createdAt: -1 })
-      .select("-password")
-      .skip(pageSize * (page - 1))
-      .limit(pageSize);
+    const usersData = await dynamodb.scan(params).promise();
+    const users = usersData.Items || [];
 
     res.status(200).json({
       success: true,
       users,
-      page,
-      pages: Math.ceil(count / pageSize),
-      count,
+      count: users.length,
     });
-    next();
   } catch (error) {
-    return next(error);
+    next(error);
   }
 };
 
@@ -62,7 +81,7 @@ exports.singleUser = async (req, res, next) => {
     const params = {
       TableName: "users", // Replace with your DynamoDB table name for users
       Key: {
-        _id: req.params.id, // Assuming userId is the key for users
+        id: req.params.id, // Assuming userId is the key for users
       },
     };
 

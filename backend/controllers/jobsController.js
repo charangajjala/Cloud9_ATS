@@ -1,7 +1,6 @@
-const Job = require("../models/jobModel");
-const JobType = require("../models/jobTypeModel");
 const ErrorResponse = require("../utils/errorResponse");
 const { v1: uuidv1, v4: uuidv4 } = require("uuid");
+const Job = require("../models/jobModel");
 
 const AWS = require("aws-sdk");
 const awsConfig = {
@@ -115,7 +114,7 @@ exports.singleJob = async (req, res, next) => {
     next(error);
   }
 };
-//update job by id.
+// update job by id.
 exports.updateJob = async (req, res, next) => {
   try {
     const job = await Job.findByIdAndUpdate(req.params.job_id, req.body, {
@@ -227,7 +226,7 @@ exports.showJobs = async (req, res, next) => {
     const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
     const jobsData = await dynamoDB.scan(params).promise();
-    const jobs = jobsData.Items || [];
+    let jobs = jobsData.Items || [];
 
     // Collect all unique JobType and User IDs
     const jobTypeIds = [...new Set(jobs.map((job) => job.jobType))];
@@ -266,10 +265,34 @@ exports.showJobs = async (req, res, next) => {
       job.user = user ? user.Item : {};
     });
     console.log("jobs", jobs);
+
+    // Filtering based on given keywords
+    const keyword = req.query.keyword;
+    if (keyword) {
+      jobs = jobs.filter((job) =>
+        job.title.toLowerCase().includes(keyword.toLowerCase())
+      );
+    }
+    const cat = req.query.cat;
+    if (cat) {
+      jobs = jobs.filter((job) => job.jobType.id === cat);
+    }
+
+    const locations = jobs.map((job) => job.location);
+    let setUniqueLocation = [...new Set(locations)];
+
+    const location = req.query.location;
+    if (location) {
+      jobs = jobs.filter(
+        (job) => job.location.toLowerCase() === location.toLowerCase()
+      );
+    }
+    console.log(keyword, cat, location);
     res.status(200).json({
       success: true,
       jobs,
       count: jobs.length,
+      setUniqueLocation,
     });
   } catch (error) {
     console.log(error);

@@ -37,16 +37,17 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(jobLoadAction(page, keyword, cat, location));
-  }, [page, keyword, cat, location]);
+  }, [page, keyword, cat, location, dispatch]);
 
   useEffect(() => {
     dispatch(jobTypeLoadAction());
-  }, []);
+  }, [dispatch]);
 
   const handleChangeCategory = (e) => {
+    console.log("cat", e.target.value);
     setCat(e.target.value);
   };
-
+  console.log("jobs", jobs);
   return (
     <>
       <Box sx={{ bgcolor: "#fafafa", minHeight: "100vh" }}>

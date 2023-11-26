@@ -31,6 +31,7 @@ import { useMemo } from "react";
 // AWS Amplify
 import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
+import TopApplicants from "./pages/admin/TopApplicants";
 
 Amplify.configure(awsExports);
 
@@ -44,6 +45,7 @@ const DashJobsHOC = Layout(DashJobs);
 const DashCategoryHOC = Layout(DashCategory);
 const DashCreateJobHOC = Layout(DashCreateJob);
 const DashCreateCategoryHOC = Layout(DashCreateCategory);
+const TopApplicantsHOC = Layout(TopApplicants);
 
 const App = () => {
   const { mode } = useSelector((state) => state.mode);
@@ -100,6 +102,14 @@ const App = () => {
                 element={
                   <AdminRoute>
                     <DashCreateJobHOC />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/topapplicants/job/:id"
+                element={
+                  <AdminRoute>
+                    <TopApplicantsHOC />
                   </AdminRoute>
                 }
               />

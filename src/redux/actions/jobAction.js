@@ -7,6 +7,9 @@ import {
   JOB_LOAD_SINGLE_REQUEST,
   JOB_LOAD_SINGLE_SUCCESS,
   JOB_LOAD_SUCCESS,
+  JOB_TOP_APPLICANTS_FAIL,
+  JOB_TOP_APPLICANTS_REQUEST,
+  JOB_TOP_APPLICANTS_SUCCESS,
   REGISTER_JOB_FAIL,
   REGISTER_JOB_REQUEST,
   REGISTER_JOB_SUCCESS,
@@ -66,5 +69,34 @@ export const registerAjobAction = (job) => async (dispatch) => {
       payload: error.response.data.error,
     });
     toast.error(error.response.data.error);
+  }
+};
+
+// single job action
+export const jobLoadTopApplicants = (id) => async (dispatch) => {
+  dispatch({ type: JOB_TOP_APPLICANTS_REQUEST });
+  try {
+    // const { data } = await axios.get(`/api/job/${id}`);
+    const data = {
+      jobTitle: "Software Engineer",
+      applicants: [
+        {
+          id: "1",
+          firstName: "John",
+          lastName: "Doe",
+          email: "charan@gmail.com",
+        },
+      ],
+      success: true,
+    };
+    dispatch({
+      type: JOB_TOP_APPLICANTS_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: JOB_TOP_APPLICANTS_FAIL,
+      payload: error.response.data.error,
+    });
   }
 };

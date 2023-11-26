@@ -75,9 +75,9 @@ const DashJobs = () => {
           <Button variant="contained">
             <Link
               style={{ color: "white", textDecoration: "none" }}
-              to={`/admin/edit/job/${values.row.id}`}
+              to={`/admin/topapplicants/job/${values.row.id}`}
             >
-              Edit
+              Filter
             </Link>
           </Button>
           <Button

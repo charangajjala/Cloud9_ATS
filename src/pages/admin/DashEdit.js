@@ -1,5 +1,12 @@
+// export const DashEdit = () => {
+//     return <h1> This is edit page</h1>
+// };
+
+
 import { Box, MenuItem, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Axios from "axios"
+import { useParams } from 'react-router-dom'
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
@@ -7,6 +14,7 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { jobTypeLoadAction } from "../../redux/actions/jobTypeAction";
 import { registerAjobAction } from "../../redux/actions/jobAction";
+
 
 const validationSchema = yup.object({
   title: yup.string("Enter a job title").required("title is required"),
@@ -18,16 +26,25 @@ const validationSchema = yup.object({
   location: yup.string("Enter a location").required("Location is required"),
   jobType: yup.string("Enter a Category").required("Category is required"),
 });
-
-const DashCreateJob = () => {
-  const dispatch = useDispatch();
+const DashEdit = () => {
+//   return <h1> This is a edit page </h1>
+      const dispatch = useDispatch();
+      const { id } = useParams();
 
   //job type
   useEffect(() => {
     dispatch(jobTypeLoadAction());
-  }, []);
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //       Axios.get(`/api/job/${id}`).then(res =>
+  //       setformik(res.data))
+  //       .catch(err => console.log(err))
+
+  // },[])
 
   const { jobType } = useSelector((state) => state.jobTypeAll);
+  const [details, setDetails] = useState([])
 
   const formik = useFormik({
     initialValues: {
@@ -37,6 +54,8 @@ const DashCreateJob = () => {
       location: "",
       jobType: "",
     },
+    enableReinitialize: true,
+    // initialValues: {details},
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
       dispatch(registerAjobAction(values));
@@ -44,8 +63,27 @@ const DashCreateJob = () => {
       actions.resetForm();
     },
   });
-  
+ 
 
+
+
+
+    Axios.get(`/api/job/${id}`).then(res => {
+        console.log('sachin', res.data)
+        setDetails(res.data.job);
+        
+        console.log(details)
+        // console.log('test1', res.data.job)
+        console.log('dif', formik.values)
+        
+
+  });
+  useEffect(() => {
+      formik.setValues({
+        ...details
+      });
+    }
+  , [details]);
   return (
     <>
       <Box
@@ -71,7 +109,7 @@ const DashCreateJob = () => {
             }}
           >
             <Typography variant="h5" component="h2" sx={{ pb: 3 }}>
-              Register a Job
+              Edit a Job
             </Typography>
             <TextField
               sx={{ mb: 3 }}
@@ -82,8 +120,10 @@ const DashCreateJob = () => {
               InputLabelProps={{
                 shrink: true,
               }}
-              placeholder="Title"
+              // value={details.title}
+              placeholder = "title"
               value={formik.values.title}
+
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.title && Boolean(formik.errors.title)}
@@ -171,7 +211,7 @@ const DashCreateJob = () => {
             </TextField>
 
             <Button fullWidth variant="contained" type="submit">
-              Create job
+              Edit job
             </Button>
           </Box>
         </Box>
@@ -180,4 +220,7 @@ const DashCreateJob = () => {
   );
 };
 
-export default DashCreateJob;
+export default DashEdit;
+
+
+

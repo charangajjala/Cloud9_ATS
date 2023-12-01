@@ -72,7 +72,7 @@ const SingleJob = () => {
                             </Box>
                             <Box sx={{ flex: 1, p: 2 }}>
                                 <Card sx={{ p: 2, bgcolor: palette.primary.white }}>
-                                    <Button onClick={applyForAJob} sx={{ fontSize: "13px" }} variant='contained'>Applied for this Job</Button>
+                                    <Button onClick={applyForAJob} sx={{ fontSize: "13px" }} variant='contained'>Apply for this Job</Button>
                                 </Card>
                             </Box>
 

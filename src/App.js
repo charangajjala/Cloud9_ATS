@@ -22,17 +22,18 @@ import Register from "./pages/Register";
 import DashCategory from "./pages/admin/DashCategory";
 import DashCreateJob from "./pages/admin/DashCreateJob";
 import DashCreateCategory from "./pages/admin/DashCreateCategory";
+import DashEdit from "./pages/admin/DashEdit";
 
 import { createTheme } from "@mui/material/styles";
 import { themeColors } from "./theme";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 
-// AWS Amplify
-import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+// // AWS Amplify
+// import { Amplify } from "aws-amplify";
+// import awsExports from "./aws-exports";
 
-Amplify.configure(awsExports);
+// Amplify.configure(awsExports);
 
 //HOC
 const UserDashboardHOC = Layout(UserDashboard);
@@ -41,6 +42,7 @@ const UserInfoDashboardHOC = Layout(UserInfoDashboard);
 const AdminDashboardHOC = Layout(AdminDashboard);
 const DashUsersHOC = Layout(DashUsers);
 const DashJobsHOC = Layout(DashJobs);
+const DashEditHOC = Layout(DashEdit);
 const DashCategoryHOC = Layout(DashCategory);
 const DashCreateJobHOC = Layout(DashCreateJob);
 const DashCreateCategoryHOC = Layout(DashCreateCategory);
@@ -100,6 +102,14 @@ const App = () => {
                 element={
                   <AdminRoute>
                     <DashCreateJobHOC />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path="/admin/edit/job/:id"
+                element={
+                  <AdminRoute>
+                    <DashEditHOC />
                   </AdminRoute>
                 }
               />

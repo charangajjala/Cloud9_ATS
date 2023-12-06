@@ -80,6 +80,14 @@ const DashJobs = () => {
               Filter
             </Link>
           </Button>
+          <Button variant="contained">
+            <Link
+              style={{ color: "white", textDecoration: "none" }}
+              to={`/admin/edit/job/${values.row.id}`}
+            >
+              Edit
+            </Link>
+          </Button>
           <Button
             onClick={(e) => deleteJobById(e, values.row.id)}
             variant="contained"

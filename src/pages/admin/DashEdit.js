@@ -1,15 +1,15 @@
-import { Box, MenuItem, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { Box, MenuItem, Typography, TextField, Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
+import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { jobTypeLoadAction } from "../../redux/actions/jobTypeAction";
-import { registerAjobAction } from "../../redux/actions/jobAction";
+import { editAjobAction } from "../../redux/actions/jobAction";
 
 const validationSchema = yup.object({
-  title: yup.string("Enter a job title").required("title is required"),
+  title: yup.string("Enter a job title").required("Title is required"),
   description: yup
     .string("Enter a description")
     .min(6, "Description should be of minimum 6 characters length")
@@ -19,15 +19,20 @@ const validationSchema = yup.object({
   jobType: yup.string("Enter a Category").required("Category is required"),
 });
 
-const DashCreateJob = () => {
+const DashEdit = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const { jobType } = useSelector((state) => state.jobTypeAll);
+  const [details, setDetails] = useState(null);
 
-  //job type
   useEffect(() => {
     dispatch(jobTypeLoadAction());
-  }, []);
-
-  const { jobType } = useSelector((state) => state.jobTypeAll);
+    Axios.get(`/api/job/${id}`)
+      .then((res) => {
+        setDetails(res.data.job);
+      })
+      .catch((err) => console.log(err));
+  }, [dispatch, id]);
 
   const formik = useFormik({
     initialValues: {
@@ -37,14 +42,19 @@ const DashCreateJob = () => {
       location: "",
       jobType: "",
     },
+    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
-      dispatch(registerAjobAction(values));
-      // alert(JSON.stringify(values, null, 2));
+      dispatch(editAjobAction(values, id));
       actions.resetForm();
     },
   });
-  
+
+  useEffect(() => {
+    if (details) {
+      formik.setValues(details);
+    }
+  }, [details]);
 
   return (
     <>
@@ -71,24 +81,22 @@ const DashCreateJob = () => {
             }}
           >
             <Typography variant="h5" component="h2" sx={{ pb: 3 }}>
-              Register a Job
+              Edit a Job
             </Typography>
+
             <TextField
               sx={{ mb: 3 }}
               fullWidth
               id="title"
               label="Title"
               name="title"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Title"
               value={formik.values.title}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.title && Boolean(formik.errors.title)}
               helperText={formik.touched.title && formik.errors.title}
             />
+
             <TextField
               sx={{ mb: 3 }}
               fullWidth
@@ -96,10 +104,6 @@ const DashCreateJob = () => {
               name="description"
               label="Description"
               type="text"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Description"
               value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -110,6 +114,7 @@ const DashCreateJob = () => {
                 formik.touched.description && formik.errors.description
               }
             />
+
             <TextField
               sx={{ mb: 3 }}
               fullWidth
@@ -117,16 +122,13 @@ const DashCreateJob = () => {
               name="salary"
               label="Salary"
               type="text"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Salary"
               value={formik.values.salary}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.salary && Boolean(formik.errors.salary)}
               helperText={formik.touched.salary && formik.errors.salary}
             />
+
             <TextField
               sx={{ mb: 3 }}
               fullWidth
@@ -134,10 +136,6 @@ const DashCreateJob = () => {
               name="location"
               label="Location"
               type="text"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              placeholder="Location"
               value={formik.values.location}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -148,8 +146,6 @@ const DashCreateJob = () => {
             <TextField
               sx={{ mb: 3 }}
               fullWidth
-              className="px-2 my-2"
-              variant="outlined"
               name="jobType"
               id="jobType"
               select
@@ -160,8 +156,6 @@ const DashCreateJob = () => {
               error={formik.touched.jobType && Boolean(formik.errors.jobType)}
               helperText={formik.touched.jobType && formik.errors.jobType}
             >
-              <MenuItem key={""} value={""}></MenuItem>
-
               {jobType &&
                 jobType.map((cat) => (
                   <MenuItem key={cat.id} value={cat.id}>
@@ -171,7 +165,7 @@ const DashCreateJob = () => {
             </TextField>
 
             <Button fullWidth variant="contained" type="submit">
-              Create job
+              Edit Job
             </Button>
           </Box>
         </Box>
@@ -180,4 +174,4 @@ const DashCreateJob = () => {
   );
 };
 
-export default DashCreateJob;
+export default DashEdit;

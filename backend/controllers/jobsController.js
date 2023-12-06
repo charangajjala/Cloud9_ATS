@@ -114,17 +114,64 @@ exports.singleJob = async (req, res, next) => {
     next(error);
   }
 };
-// update job by id.
+
+// // update job by id.
+// exports.updateJob = async (req, res, next) => {
+//   try {
+//     const job = await Job.findByIdAndUpdate(req.params.job_id, req.body, {
+//       new: true,
+//     })
+//       .populate("jobType", "jobTypeName")
+//       .populate("user", "firstName lastName");
+//     res.status(200).json({
+//       success: true,
+//       job,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 exports.updateJob = async (req, res, next) => {
   try {
-    const job = await Job.findByIdAndUpdate(req.params.job_id, req.body, {
-      new: true,
-    })
-      .populate("jobType", "jobTypeName")
-      .populate("user", "firstName lastName");
+    const { title, description, salary, location, jobType, available } =
+      req.body;
+    const jobId = req.params.job_id;
+    const docClient = new AWS.DynamoDB.DocumentClient();
+
+    const params = {
+      TableName: "jobs",
+      Key: {
+        id: jobId,
+      },
+      UpdateExpression:
+        "SET #title = :title, #description = :description, #salary = :salary, #location = :location, #jobType = :jobType, #available = :available, #user = :user",
+      ExpressionAttributeNames: {
+        "#title": "title",
+        "#description": "description",
+        "#salary": "salary",
+        "#location": "location",
+        "#jobType": "jobType",
+        "#available": "available",
+        "#user": "user",
+      },
+      ExpressionAttributeValues: {
+        ":title": title,
+        ":description": description,
+        ":salary": salary,
+        ":location": location,
+        ":jobType": jobType,
+        ":available": available,
+        ":user": req.user.id,
+      },
+      ReturnValues: "ALL_NEW",
+    };
+
+    const updatedJob = await docClient.update(params).promise();
+
     res.status(200).json({
       success: true,
-      job,
+      job: updatedJob.Attributes,
     });
   } catch (error) {
     next(error);

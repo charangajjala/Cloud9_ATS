@@ -13,6 +13,9 @@ import {
   REGISTER_JOB_REQUEST,
   REGISTER_JOB_RESET,
   REGISTER_JOB_SUCCESS,
+  EDIT_JOB_REQUEST,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_FAIL,
 } from "../constants/jobconstant";
 
 export const loadJobReducer = (state = { jobs: [] }, action) => {
@@ -93,6 +96,24 @@ export const registerAjobReducer = (state = {}, action) => {
       return { loading: false, error: action.payload };
     case REGISTER_JOB_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+//Registred job;
+export const editAjobReducer = (state = {}, action) => {
+  switch (action.type) {
+    case EDIT_JOB_REQUEST:
+      return { loading: true };
+    case EDIT_JOB_SUCCESS:
+      return {
+        loading: false,
+        job: action.payload,
+      };
+    case EDIT_JOB_FAIL:
+      return { loading: false, error: action.payload };
+
     default:
       return state;
   }

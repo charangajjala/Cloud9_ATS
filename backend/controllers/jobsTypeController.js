@@ -106,3 +106,5 @@ exports.deleteJobType = async (req, res, next) => {
     next(new ErrorResponse("server error", 500));
   }
 };
+
+

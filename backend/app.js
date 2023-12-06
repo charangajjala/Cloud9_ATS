@@ -33,7 +33,7 @@ const errorHandler = require("./middleware/error");
 const AWS = require("aws-sdk");
 const awsConfig = {
   region: "us-east-2",
-  endpoint: "http://dynamodb.us-east-2.amazonaws.com",
+  // endpoint: "http://dynamodb.us-east-2.amazonaws.com",
   accessKeyId: process.env.ACCESS_KEY_ID,
   secretAccessKey: process.env.SECRET_ACCESS_KEY,
 };
@@ -50,6 +50,7 @@ app.use(
     extended: true,
   })
 );
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 

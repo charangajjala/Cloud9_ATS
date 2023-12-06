@@ -3,16 +3,18 @@ const { v1: uuidv1, v4: uuidv4 } = require("uuid");
 const Job = require("../models/jobModel");
 
 const AWS = require("aws-sdk");
+
 const awsConfig = {
   region: "us-east-2",
-  endpoint: "http://dynamodb.us-east-2.amazonaws.com",
   accessKeyId: process.env.ACCESS_KEY_ID,
   secretAccessKey: process.env.SECRET_ACCESS_KEY,
 };
 
 AWS.config.update(awsConfig);
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const s3 = new AWS.S3();
+
+// const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // //create job
 // exports.createJob = async (req, res, next) => {
@@ -61,6 +63,123 @@ exports.createJob = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     next(error);
+  }
+};
+
+exports.applyJob = async (req, res, next) => {
+  try {
+    const docClient = new AWS.DynamoDB.DocumentClient();
+    const {
+      firstName,
+      lastName,
+      address,
+      personalEmail,
+      dateOfBirth,
+      skills,
+      resumeId,
+    } = req.body;
+
+    const new_job_apply = {
+      // Unique identifier for the job
+      firstName,
+      lastName,
+      address,
+      personalEmail,
+      dateOfBirth,
+      skills,
+      resumeId,
+      userId: req.user.id,
+      available: true,
+      jobId: req.params.job_id,
+    };
+
+    const params = {
+      TableName: "applyjobs",
+      Item: new_job_apply,
+    };
+
+    await docClient.put(params).promise();
+
+    res.status(201).json({
+      success: true,
+      new_job_apply,
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+exports.checkIfApplied = async (req, res, next) => {
+  try {
+    const docClient = new AWS.DynamoDB.DocumentClient();
+    const userId = req.body.userId; // Assuming the user ID is passed in the request parameters
+    const jobId = req.body.jobId; // Assuming the job ID is passed in the request parameters
+
+    const params = {
+      TableName: "applyjobs",
+      FilterExpression: "#userId = :userId and #jobId = :jobId",
+      ExpressionAttributeNames: {
+        "#userId": "userId", // Replace with the actual attribute name in your table
+        "#jobId": "jobId", // Replace with the actual attribute name in your table
+      },
+      ExpressionAttributeValues: {
+        ":userId": userId,
+        ":jobId": jobId,
+      },
+    };
+
+    const data = await docClient.scan(params).promise();
+
+    if (data.Items && data.Items.length > 0) {
+      res.status(200).json({
+        applied: true,
+      });
+    } else {
+      res.status(200).json({
+        applied: false,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+exports.uploadResume = async (req, res) => {
+  const userId = req.user.id; // Assuming userId is sent in the request body
+  const resumeFile = req.file; // Assuming the resume file is sent as part of req.file
+
+  const jobId = req.params.job_id;
+  console.log("Resume File:", resumeFile);
+
+  if (!resumeFile) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Missing userId or resume file" });
+  }
+
+  const params = {
+    Bucket: "cloud9ats",
+    Key: `resumes/${userId}/${jobId}.pdf`, // Unique key for the file in S3
+    Body: resumeFile.buffer, // Buffer of the resume file
+    // ACL: "public-read"
+  };
+
+  try {
+    // Upload resume file to S3 bucket
+    const uploadedFile = await s3.upload(params).promise();
+    const documentId = uploadedFile.Key; // You can use the file's key as the document ID
+
+    // Handle storing documentId in your database or return it as a response
+    // Example: Save documentId in your database associated with the user
+
+    res.status(200).json({ success: true, documentId });
+  } catch (error) {
+    console.error("Error uploading file to S3:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to upload resume to S3" });
   }
 };
 

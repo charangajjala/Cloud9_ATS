@@ -10,15 +10,41 @@ import { jobLoadSingleAction } from "../redux/actions/jobAction";
 import Button from "@mui/material/Button";
 import { userApplyJobAction } from "../redux/actions/userAction";
 import { useTheme } from "@emotion/react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const SingleJob = () => {
+  const { userInfo } = useSelector((state) => state.signIn);
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const { singleJob, loading } = useSelector((state) => state.singleJob);
   const { id } = useParams();
+
   useEffect(() => {
     dispatch(jobLoadSingleAction(id));
   }, [id, dispatch]);
+
+  // ... other code
+
+  const [applied, setapplied] = useState(false);
+
+  useEffect(() => {
+    console.log("userInfo", userInfo);
+    const checkAssociation = async () => {
+      try {
+        const response = await axios.post(`/api/job/check/applied`, {
+          userId: userInfo.id,
+          jobId: id,
+        }); // Replace with your API endpoint
+        setapplied(response.data.applied);
+      } catch (error) {
+        console.error("Error checking association:", error);
+      }
+    };
+
+    checkAssociation();
+  }, [id, userInfo, userInfo.id]);
 
   const applyForAJob = () => {
     dispatch(
@@ -82,11 +108,16 @@ const SingleJob = () => {
               <Box sx={{ flex: 1, p: 2 }}>
                 <Card sx={{ p: 2, bgcolor: palette.primary.white }}>
                   <Button
-                    onClick={applyForAJob}
                     sx={{ fontSize: "13px" }}
                     variant="contained"
+                    disabled={applied}
                   >
-                    Applied for this Job
+                    <Link
+                      style={{ color: "white", textDecoration: "none" }}
+                      to={`/apply/job/${id}`}
+                    >
+                      Apply
+                    </Link>
                   </Button>
                 </Card>
               </Box>

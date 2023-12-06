@@ -34,6 +34,8 @@ import { Amplify } from "aws-amplify";
 import awsExports from "./aws-exports";
 import TopApplicants from "./pages/admin/TopApplicants";
 
+import ApplyJob from "./pages/user/Applyjob";
+
 // Amplify.configure(awsExports);
 
 //HOC
@@ -67,6 +69,7 @@ const App = () => {
               <Route path="/login" element={<LogIn />} />
               <Route path="/register" element={<Register />} />
               <Route path="/job/:id" element={<SingleJob />} />
+              <Route path="apply/job/:id" element={<ApplyJob />} />
               <Route
                 path="/admin/dashboard"
                 element={

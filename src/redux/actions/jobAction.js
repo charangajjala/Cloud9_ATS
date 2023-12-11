@@ -96,25 +96,33 @@ export const editAjobAction = (job, id) => async (dispatch) => {
 };
 
 // single job action
-export const jobLoadTopApplicants = (id) => async (dispatch) => {
+export const jobLoadTopApplicants = (jobId, jobDesc) => async (dispatch) => {
   dispatch({ type: JOB_TOP_APPLICANTS_REQUEST });
   try {
     // const { data } = await axios.get(`/api/job/${id}`);
-    const data = {
-      jobTitle: "Software Engineer",
-      applicants: [
-        {
-          id: "1",
-          firstName: "John",
-          lastName: "Doe",
-          email: "charan@gmail.com",
-        },
-      ],
-      success: true,
-    };
+    const { data } = await axios.post(
+      `https://is22nmwcu0.execute-api.us-east-2.amazonaws.com/dev/`,
+      { jobId: jobId, jobDescription: jobDesc }
+    );
+
+    console.log("Data:", data.body);
+    const topApplicants = JSON.parse(data.body);
+    console.log("topApplicants:", topApplicants);
+    // const data = {
+    //   jobTitle: "Software Engineer",
+    //   applicants: [
+    //     {
+    //       id: "1",
+    //       firstName: "John",
+    //       lastName: "Doe",
+    //       email: "charan@gmail.com",
+    //     },
+    //   ],
+    //   success: true,
+    // };
     dispatch({
       type: JOB_TOP_APPLICANTS_SUCCESS,
-      payload: data,
+      payload: { topApplicants, success: true },
     });
   } catch (error) {
     dispatch({

@@ -72,8 +72,7 @@ export const loadJobTopApplicants = (state = { job: {} }, action) => {
       return {
         loading: false,
         success: action.payload.success,
-        applicants: action.payload.applicants,
-        jobTitle: action.payload.jobTitle,
+        topApplicants: action.payload.topApplicants,
       };
     case JOB_LOAD_SINGLE_FAIL:
       return { loading: false, error: action.payload };

@@ -75,7 +75,7 @@ const DashJobs = () => {
           <Button variant="contained">
             <Link
               style={{ color: "white", textDecoration: "none" }}
-              to={`/admin/topapplicants/job/${values.row.id}`}
+              to={`/admin/topapplicants/job/${values.row.id}/${values.row.description}/${values.row.title}`}
             >
               Filter
             </Link>

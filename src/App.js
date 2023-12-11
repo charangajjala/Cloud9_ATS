@@ -111,7 +111,7 @@ const App = () => {
                 }
               />
               <Route
-                path="/admin/topapplicants/job/:id"
+                path="/admin/topapplicants/job/:jobId/:jobDesc/:jobTitle"
                 element={
                   <AdminRoute>
                     <TopApplicantsHOC />

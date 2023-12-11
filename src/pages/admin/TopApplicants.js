@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { DataGrid, gridClasses, GridToolbar } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -11,13 +11,18 @@ import { jobLoadTopApplicants } from "../../redux/actions/jobAction";
 const TopApplicants = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(jobLoadTopApplicants());
-  }, [dispatch]);
+  const { jobId, jobDesc, jobTitle } = useParams();
 
-  const { applicants, loading, jobTitle } = useSelector(
+  useEffect(() => {
+    console.log("jobId", jobId);
+    dispatch(jobLoadTopApplicants(jobId, jobDesc));
+  }, [dispatch, jobDesc, jobId]);
+
+  const { topApplicants, loading } = useSelector(
     (state) => state.loadTopApplicants
   );
+
+  console.log("applicants", topApplicants);
   //   const applicants = [
   //     {
   //       id: "1",
@@ -27,7 +32,10 @@ const TopApplicants = () => {
   //     },
   //   ];
   let data = [];
-  data = applicants !== undefined && applicants.length > 0 ? applicants : [];
+  data =
+    topApplicants !== undefined && topApplicants.length > 0
+      ? topApplicants
+      : [];
 
   //   const deleteUserById = (e, id) => {
   //     console.log(id);
@@ -35,14 +43,14 @@ const TopApplicants = () => {
 
   const columns = [
     {
-      field: "id",
+      field: "userId",
       headerName: "User ID",
       width: 150,
       editable: true,
     },
 
     {
-      field: "email",
+      field: "personalEmail",
       headerName: "E_mail",
       width: 150,
     },
@@ -55,6 +63,11 @@ const TopApplicants = () => {
     {
       field: "lastName",
       headerName: "Last name",
+      width: 150,
+    },
+    {
+      field: "similarityScore",
+      headerName: "Smiliarity Score",
       width: 150,
     },
   ];
@@ -88,7 +101,7 @@ const TopApplicants = () => {
                   color: "#ffffff",
                 },
               }}
-              getRowId={(row) => row.id}
+              getRowId={(row) => row.userId}
               rows={data}
               columns={columns}
               pageSize={3}

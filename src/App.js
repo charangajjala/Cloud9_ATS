@@ -30,8 +30,8 @@ import { useSelector } from "react-redux";
 import { useMemo } from "react";
 
 // AWS Amplify
-import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+// import { Amplify } from "aws-amplify";
+// import awsExports from "./aws-exports";
 import TopApplicants from "./pages/admin/TopApplicants";
 
 import ApplyJob from "./pages/user/Applyjob";

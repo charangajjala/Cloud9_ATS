@@ -1,40 +1,22 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-cloud9ats-dev-204336-authRole",
-      "UnauthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-dev-204336-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-dev-204336-authRole",
+      "AuthRoleName": "amplify-cloud9ats-dev-110257-authRole",
+      "UnauthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-dev-110257-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-dev-110257-authRole",
       "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-cloud9ats-dev-204336-deployment",
-      "UnauthRoleName": "amplify-cloud9ats-dev-204336-unauthRole",
-      "StackName": "amplify-cloud9ats-dev-204336",
-      "StackId": "arn:aws:cloudformation:us-east-2:168490788113:stack/amplify-cloud9ats-dev-204336/1eca1fa0-803c-11ee-bf4a-02950c46a3f3",
-      "AmplifyAppId": "d3jgd938t42rsx"
+      "DeploymentBucketName": "amplify-cloud9ats-dev-110257-deployment",
+      "UnauthRoleName": "amplify-cloud9ats-dev-110257-unauthRole",
+      "StackName": "amplify-cloud9ats-dev-110257",
+      "StackId": "arn:aws:cloudformation:us-east-2:168490788113:stack/amplify-cloud9ats-dev-110257/23622a80-9847-11ee-8450-0a6562fff21f",
+      "AmplifyAppId": "d1sn4jsly8fwye"
     },
     "categories": {
-      "auth": {
-        "cloud9atse5d966cf": {}
-      }
-    }
-  },
-  "ats": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-cloud9ats-ats-182606-authRole",
-      "UnauthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-ats-182606-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::168490788113:role/amplify-cloud9ats-ats-182606-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-cloud9ats-ats-182606-deployment",
-      "UnauthRoleName": "amplify-cloud9ats-ats-182606-unauthRole",
-      "StackName": "amplify-cloud9ats-ats-182606",
-      "StackId": "arn:aws:cloudformation:us-east-2:168490788113:stack/amplify-cloud9ats-ats-182606/658ba0a0-8bf2-11ee-a79d-0a1e047b15e5",
-      "AmplifyAppId": "d3jgd938t42rsx"
-    },
-    "categories": {
-      "auth": {
-        "cloud9atse5d966cf": {}
-      },
-      "function": {
-        "ATSFunction": {}
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1sn4jsly8fwye",
+          "type": "manual"
+        }
       }
     }
   }

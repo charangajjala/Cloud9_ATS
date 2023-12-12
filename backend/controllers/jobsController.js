@@ -88,6 +88,7 @@ exports.applyJob = async (req, res, next) => {
       dateOfBirth,
       skills,
       resumeId,
+
       userId: req.user.id,
       available: true,
       jobId: req.params.job_id,
@@ -382,6 +383,28 @@ exports.updateJob = async (req, res, next) => {
 //     next(error);
 //   }
 // };
+
+exports.deleteJob = async (req, res, next) => {
+  const docClient = new AWS.DynamoDB.DocumentClient();
+  try {
+    const params = {
+      TableName: "jobs",
+      Key: {
+        id: req.params.id, // Assuming 'userId' is the key attribute name in your DynamoDB table
+      },
+    };
+
+    await docClient.delete(params).promise();
+
+    res.status(200).json({
+      success: true,
+      message: "Job deleted",
+    });
+    next();
+  } catch (error) {
+    return next(error);
+  }
+};
 
 exports.showJobs = async (req, res, next) => {
   const params = {

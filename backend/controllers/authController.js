@@ -213,9 +213,52 @@ exports.userProfile = async (req, res, next) => {
     const user = result.Item;
     delete user.password; // Assuming 'password' is stored and needs to be excluded
     console.log("user profile", user);
+
+    const appliedJobsParams = {
+      TableName: "applyjobs",
+      FilterExpression: "userId = :userId",
+      ExpressionAttributeValues: {
+        ":userId": req.user.id,
+      },
+    };
+    const appliedJobsResult = await docClient.scan(appliedJobsParams).promise();
+
+    console.log("appliedJobsResult", appliedJobsResult);
+
+    if (!appliedJobsResult.Items || appliedJobsResult.Items.length === 0) {
+      return res.status(200).json({
+        success: true,
+        user: {
+          ...user,
+          jobsHistory: [], // No jobs applied yet
+        },
+      });
+    }
+
+    const jobIds = appliedJobsResult.Items.map((item) => item.jobId);
+
+    const jobsPromises = jobIds.map(async (jobId) => {
+      const jobParams = {
+        TableName: "jobs",
+        Key: {
+          id: jobId,
+        },
+      };
+
+      const jobResult = await docClient.get(jobParams).promise();
+      return jobResult.Item;
+    });
+
+    const jobDetails = await Promise.all(jobsPromises);
+
+    const userWithJobHistory = {
+      ...user,
+      jobsHistory: jobDetails.filter((job) => job), // Filtering out null items
+    };
+
     res.status(200).json({
       success: true,
-      user,
+      user: userWithJobHistory,
     });
   } catch (error) {
     next(error);

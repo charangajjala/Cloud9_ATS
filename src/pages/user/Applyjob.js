@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 // import { useSelector } from "react-redux";
 
 const ApplyJob = () => {
@@ -48,7 +49,10 @@ const ApplyJob = () => {
       const documentId = uploadResponse.data.documentId;
 
       // Save form data along with resume ID
-      const formDataWithResume = { ...formData, resumeId: documentId };
+      const formDataWithResume = {
+        ...formData,
+        resumeId: documentId,
+      };
 
       const saveFormDataResponse = await axios.post(
         `/api/apply/job/${id}`,
@@ -60,6 +64,7 @@ const ApplyJob = () => {
       }
 
       console.log("Form Data Saved Successfully!");
+      toast.success("Job Applied Successfully!");
     } catch (error) {
       console.error("Error:", error.message);
     }

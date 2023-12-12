@@ -88,6 +88,7 @@ export const userLogoutAction = () => async (dispatch) => {
       type: USER_LOGOUT_SUCCESS,
       payload: data,
     });
+
     toast.success("Log out successfully!");
   } catch (error) {
     dispatch({
@@ -103,6 +104,7 @@ export const userProfileAction = () => async (dispatch) => {
   dispatch({ type: USER_LOAD_REQUEST });
   try {
     const { data } = await axios.get("/api/me");
+    console.log("data /api/me", data);
     dispatch({
       type: USER_LOAD_SUCCESS,
       payload: data,

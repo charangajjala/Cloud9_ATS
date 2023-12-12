@@ -24,7 +24,7 @@ export const jobLoadAction =
     dispatch({ type: JOB_LOAD_REQUEST });
     try {
       const { data } = await axios.get(
-        `/api/jobs/show/?pageNumber=${pageNumber}&keyword=${keyword}&cat=${cat}&location=${location}`
+        `http://cloud9-env.eba-myarpwsz.us-east-2.elasticbeanstalk.com/api/jobs/show/?pageNumber=${pageNumber}&keyword=${keyword}&cat=${cat}&location=${location}`
       );
       dispatch({
         type: JOB_LOAD_SUCCESS,

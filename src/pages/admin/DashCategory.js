@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import { jobTypeLoadAction } from "../../redux/actions/jobTypeAction";
+import axios from "axios";
 
 import moment from "moment";
 
@@ -22,6 +23,8 @@ const DashCategory = () => {
   //delete job by Id
   const deleteJobCategoryById = (e, id) => {
     console.log(id);
+    axios.delete(`/api/type/delete/${id}`);
+    window.location.reload();
   };
 
   const columns = [

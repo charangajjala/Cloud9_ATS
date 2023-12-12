@@ -56,5 +56,5 @@
   "devDependencies": {
     "@redux-devtools/extension": "^3.2.5"
   },
-  "proxy": "http://localhost:9000"
+  "proxy": "http://cloud9-env.eba-myarpwsz.us-east-2.elasticbeanstalk.com"
 }

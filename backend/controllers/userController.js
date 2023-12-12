@@ -118,13 +118,35 @@ exports.editUser = async (req, res, next) => {
   }
 };
 
-//delete user
+// //delete user
+// exports.deleteUser = async (req, res, next) => {
+//   try {
+//     const user = await User.findByIdAndRemove(req.params.id);
+//     res.status(200).json({
+//       success: true,
+//       message: "user deleted",
+//     });
+//     next();
+//   } catch (error) {
+//     return next(error);
+//   }
+// };
+
 exports.deleteUser = async (req, res, next) => {
+  const docClient = new AWS.DynamoDB.DocumentClient();
   try {
-    const user = await User.findByIdAndRemove(req.params.id);
+    const params = {
+      TableName: "users",
+      Key: {
+        id: req.params.id, // Assuming 'userId' is the key attribute name in your DynamoDB table
+      },
+    };
+
+    await docClient.delete(params).promise();
+
     res.status(200).json({
       success: true,
-      message: "user deleted",
+      message: "User deleted",
     });
     next();
   } catch (error) {

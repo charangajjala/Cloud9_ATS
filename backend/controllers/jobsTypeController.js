@@ -96,15 +96,23 @@ exports.updateJobType = async (req, res, next) => {
 
 //delete job type
 exports.deleteJobType = async (req, res, next) => {
+  const docClient = new AWS.DynamoDB.DocumentClient();
   try {
-    const jobT = await JobType.findByIdAndRemove(req.params.type_id);
+    const params = {
+      TableName: "jobtypes",
+      Key: {
+        id: req.params.type_id,
+      },
+    };
+
+    await docClient.delete(params).promise();
+
     res.status(200).json({
       success: true,
-      message: "Job type deleted",
+      message: "Job Type deleted",
     });
+    next();
   } catch (error) {
-    next(new ErrorResponse("server error", 500));
+    return next(error);
   }
 };
-
-

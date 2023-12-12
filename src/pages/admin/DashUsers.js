@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { allUserAction } from "../../redux/actions/userAction";
+import axios from "axios";
 
 const DashUsers = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,8 @@ const DashUsers = () => {
 
   const deleteUserById = (e, id) => {
     console.log(id);
+    axios.delete(`/api/user/delete/${id}`);
+    window.location.reload();
   };
 
   const columns = [

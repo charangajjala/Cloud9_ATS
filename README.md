@@ -33,9 +33,7 @@ In the project root directory, you can run:
 
 ### Create a .env file in backend directory and add the following variables
 
-ACCESS_KEY_ID = "AKIASOOWVMUI3IEB7AOW"  
-SECRET_ACCESS_KEY = "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"  
-JWT_SECRET = 'Veeramalla'
+
 
 ### `npm install` - to install dependencies
 

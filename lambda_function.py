@@ -12,8 +12,8 @@ def lambda_handler(event, context):
     # Extract jobId and jobDescription from the request body
     jobId = event['jobId']
     jobDescription = event['jobDescription']
-    aws_access_key_id = 'AKIASOOWVMUI3IEB7AOW'
-    aws_secret_access_key = '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'
+    aws_access_key_id = 'process.env.access_id'
+    aws_secret_access_key = 'process.env.secret_key'
     aws_region = 'us-east-2'
 
     print(jobId)

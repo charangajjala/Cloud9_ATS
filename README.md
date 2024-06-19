@@ -49,12 +49,6 @@ In the project root directory, you can run:
 
 ### Password: Test@1234
 
-## To login as one of the Normal user use the credentials:
-
-### Email: tejasrigutta@gmail.com
-
-### Password: Test@123
-
-## Normal users can also be registered by clicking register button in Home Page
+## Normal users can be registered by clicking register button in Home Page
 
 ## NOTE : Sometimes website can be slow due to server being in free tier so please wait for sometime if it is slow!

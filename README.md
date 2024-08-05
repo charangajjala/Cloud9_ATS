@@ -49,8 +49,11 @@ To experience the functionality of our cloud-based Applicant Tracking System (AT
 ## User Registration and Login
 
 - **User Registration**: New users can register by filling in their details, including name, email, and password. This initial setup creates a user profile within the system.
+
   ![](Assets/2024-08-04-18-43-06.png)
+
 - **User Login**: Registered users can securely log in using their credentials, providing access to their personalized dashboard and features.
+
   ![](<Assets/![User%20Login](path/to/login_screenshot.png).png>)
 
 ## User Dashboard
@@ -67,14 +70,17 @@ To experience the functionality of our cloud-based Applicant Tracking System (AT
 ## Admin Login and Dashboard
 
 - **Admin Login**: Administrators log in using a secure, predefined account. The admin interface is protected by Amazon Cognito, ensuring secure authentication.
+
   ![](<Assets/![Admin%20Login](path/to/admin_login_screenshot.png).png>)
+
 - **Admin Dashboard**: The dashboard provides a comprehensive overview of the platform's activity. Admins can manage job listings, view applicant information, and use advanced filtering tools to streamline the recruitment process.
+
   ![](Assets/2024-08-04-18-45-44.png)
+
 - **Job Management**: Admins can create, update, and delete job postings. The system allows for easy modification of job details to keep listings current and accurate.
+
   ![](Assets/2024-08-04-18-45-58.png)
   ![](Assets/2024-08-04-18-46-10.png)
-- **Candidate Filtering**: The admin dashboard includes a filtering function that leverages AWS Lambda to match candidates with job requirements, presenting a shortlist of the most qualified applicants.
-  ![](Assets/2024-08-04-18-46-27.png)
 
 ## Advanced Filtering and Candidate Selection
 

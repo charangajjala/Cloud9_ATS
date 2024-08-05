@@ -80,7 +80,7 @@ To experience the functionality of our cloud-based Applicant Tracking System (AT
 
 - **Filtering Mechanism**: The system uses a serverless architecture with AWS Lambda to filter candidates based on predefined criteria. This includes analyzing resumes and application details to generate a similarity score.
 - **Top Candidates**: The top candidates for each position are highlighted, allowing admins to focus on the best matches. This feature streamlines the selection process, making it efficient and accurate.
-  ![Filtering Candidates](path/to/filtering_screenshot.png)
+  ![](<Assets/![Filtering%20Candidates](path/to/filtering_screenshot.png).png>)
 
 ## 📋 Key Features
 

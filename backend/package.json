@@ -7,8 +7,8 @@
     "start": "node app.js",
     "server": "nodemon app.js"
   },
-  "author": "Emmann",
-  "license": "ISC",
+  "author": "Charan",
+  "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.1494.0",
     "bcryptjs": "^2.4.3",

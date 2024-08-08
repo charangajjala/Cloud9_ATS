@@ -18,7 +18,7 @@
 
 <!-- <p align="center">If you want to discuss something, you can ask on my <a href="https://discord.com/invite/GkcbM5bwZr">Discord Server</a>.</p> -->
 
-# 🖥️ Installation
+# 🖥️ Installation % Setup ⚙️
 
 - Download the latest Node.js version from [here](https://nodejs.org/en/download/) and npm will be installed with nodejs.
 
